@@ -18,17 +18,17 @@ export const PageControls: FC<PokemonListItemProps> = ({
     return (
         <div className="bg-[#0197F6] rounded-md p-4 flex justify-between">
             <Button type="button" onClick={onReset}>
-                Reiniciar
+                Reset
             </Button>
             <div className="flex items-center gap-4">
                 <Button type="button" onClick={onPrevious}>
-                    Anterior
+                    Prev
                 </Button>
                 <span className="font-bold">
                     {currOffset + 1}-{currOffset + 10}/{totalResult}
                 </span>
                 <Button type="button" onClick={onNext}>
-                    Siguiente
+                    Next
                 </Button>
             </div>
         </div>
