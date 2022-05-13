@@ -11,5 +11,6 @@
     },
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
-    "files.insertFinalNewline": true
+    "files.insertFinalNewline": true,
+    "cSpell.words": ["Pokemons"]
 }
