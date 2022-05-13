@@ -1,9 +1,36 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, SetStateAction, useContext, useEffect, useState } from 'react';
 import { PaginatedPokemonsResponse } from '../../context/application/pokemon/PokemonResponses';
 import { OptionalRepositoryResult } from '../../context/application/RepositoryResponse';
+import { PageControls } from '../pokemons/components/organisms/PageControls';
 import { PokemonsList } from '../pokemons/components/organisms/PokemonsList';
 import { PokemonRepositoryContext } from '../providers/PokemonRepository';
 
+const PageContent: FC<{
+    data: PaginatedPokemonsResponse;
+    changeOffset: (newOffset: SetStateAction<number>) => void;
+    currOffset: number;
+}> = ({ changeOffset, data, currOffset }) => {
+    return (
+        <div className="flex flex-col w-full gap-4 p-8">
+            <PageControls
+                currOffset={currOffset}
+                totalResult={data.count}
+                onReset={(): void => changeOffset(10)}
+                onNext={
+                    data.next
+                        ? (): void => changeOffset((prev) => prev + 10)
+                        : undefined
+                }
+                onPrevious={
+                    data.previous
+                        ? (): void => changeOffset((prev) => prev - 10)
+                        : undefined
+                }
+            />
+            <PokemonsList results={data.results} />
+        </div>
+    );
+};
 export const IndexPage: FC = () => {
     const pokeRepo = useContext(PokemonRepositoryContext);
     const [paginatedResponse, setPaginatedResponse] =
@@ -12,6 +39,7 @@ export const IndexPage: FC = () => {
         );
     const [pokeOffset, setPokeOffset] = useState(10);
     useEffect(() => {
+        setPaginatedResponse(undefined);
         const fetchPaginatedPokemons = async (): Promise<void> => {
             const response = await pokeRepo.getPaginated(pokeOffset);
             setPaginatedResponse(response);
@@ -23,7 +51,11 @@ export const IndexPage: FC = () => {
             {!paginatedResponse ? (
                 <div>Loading...</div>
             ) : paginatedResponse.status ? (
-                <PokemonsList results={paginatedResponse.data.results} />
+                <PageContent
+                    currOffset={pokeOffset}
+                    data={paginatedResponse.data}
+                    changeOffset={(newOffset): void => setPokeOffset(newOffset)}
+                />
             ) : (
                 paginatedResponse.reason
             )}

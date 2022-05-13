@@ -20,7 +20,7 @@ export const PokemonListItem: FC<PokemonListItemProps> = ({ url, name }) => {
     return !pokemon ? (
         <div></div>
     ) : (
-        <article className=" text-[#6B0F1A] py-1 flex flex-col items-center justify-center w-full bg-[#0197F6] rounded-lg">
+        <article className="py-1 flex flex-col items-center justify-center w-full bg-[#0197F6] rounded-lg">
             {pokemon.status ? (
                 <PokemonListItemContent pokemon={pokemon.data} />
             ) : (

@@ -8,13 +8,13 @@ export const PokemonItemMovements: FC<{ abilities: PokemonAbility[] }> = ({
     return (
         <>
             <span className="font-bold">Movements</span>
-            <div className="flex flex-row flex-wrap gap-x-2">
+            <ol className="flex flex-row flex-wrap list-disc list-inside gap-x-2">
                 {abilities.map((a) => (
-                    <span className="text-sm" key={a.ability.url}>
+                    <li className="text-sm" key={a.ability.url}>
                         {capitalizeFirstLetter(a.ability.name)}
-                    </span>
+                    </li>
                 ))}
-            </div>
+            </ol>
         </>
     );
 };

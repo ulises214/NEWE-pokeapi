@@ -7,7 +7,7 @@ export class MemoryPokemonRepository extends PokemonRepository {
     getPaginated(
         offset: number,
     ): RepositoryResponse<PaginatedPokemonsResponse> {
-        throw new Error('Method not implemented.');
+        throw new Error('Method not implemented.' + offset);
     }
     setPokemon(url: string, pokemon: Pokemon): void {
         this.#pokemons.push([url, pokemon]);

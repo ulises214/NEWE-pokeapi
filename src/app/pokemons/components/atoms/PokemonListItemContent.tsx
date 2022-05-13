@@ -15,10 +15,11 @@ export const PokemonListItemContent: FC<{ pokemon: Pokemon }> = ({
             />
             <img
                 className="object-contain w-full aspect-square"
+                alt={pokemon.name}
                 src={
                     pokemon.sprites.front_default ??
                     pokemon.sprites.back_default ??
-                    undefined
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/640px-Pok%C3%A9_Ball_icon.svg.png'
                 }
             />
             <div className="flex-grow">
