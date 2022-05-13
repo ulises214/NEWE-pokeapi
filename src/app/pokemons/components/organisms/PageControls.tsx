@@ -16,9 +16,9 @@ export const PageControls: FC<PokemonListItemProps> = ({
     onPrevious,
 }) => {
     return (
-        <div className="bg-[#0197F6] rounded-md p-4 flex justify-between">
+        <div className="bg-[#0197F6] w-full rounded-md p-4 flex justify-between">
             <Button type="button" onClick={onReset}>
-                Reset
+                Get Pokemons
             </Button>
             <div className="flex items-center gap-4">
                 <Button type="button" onClick={onPrevious}>

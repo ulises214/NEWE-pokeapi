@@ -1,36 +1,10 @@
-import { FC, SetStateAction, useContext, useEffect, useState } from 'react';
+import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { PaginatedPokemonsResponse } from '../../context/application/pokemon/PokemonResponses';
 import { OptionalRepositoryResult } from '../../context/application/RepositoryResponse';
 import { PageControls } from '../pokemons/components/organisms/PageControls';
 import { PokemonsList } from '../pokemons/components/organisms/PokemonsList';
 import { PokemonRepositoryContext } from '../providers/PokemonRepository';
 
-const PageContent: FC<{
-    data: PaginatedPokemonsResponse;
-    changeOffset: (newOffset: SetStateAction<number>) => void;
-    currOffset: number;
-}> = ({ changeOffset, data, currOffset }) => {
-    return (
-        <div className="flex flex-col w-full gap-4 p-8">
-            <PageControls
-                currOffset={currOffset}
-                totalResult={data.count}
-                onReset={(): void => changeOffset(10)}
-                onNext={
-                    data.next
-                        ? (): void => changeOffset((prev) => prev + 10)
-                        : undefined
-                }
-                onPrevious={
-                    data.previous
-                        ? (): void => changeOffset((prev) => prev - 10)
-                        : undefined
-                }
-            />
-            <PokemonsList results={data.results} />
-        </div>
-    );
-};
 export const IndexPage: FC = () => {
     const pokeRepo = useContext(PokemonRepositoryContext);
     const [paginatedResponse, setPaginatedResponse] =
@@ -38,26 +12,51 @@ export const IndexPage: FC = () => {
             undefined,
         );
     const [pokeOffset, setPokeOffset] = useState(10);
+    const [clicked, setClicked] = useState(false);
     useEffect(() => {
+        if (!clicked) return;
         setPaginatedResponse(undefined);
         const fetchPaginatedPokemons = async (): Promise<void> => {
             const response = await pokeRepo.getPaginated(pokeOffset);
             setPaginatedResponse(response);
         };
         fetchPaginatedPokemons();
-    }, [pokeOffset]);
+    }, [pokeOffset, clicked]);
+    const loadData = useCallback(() => {
+        setPokeOffset(10);
+        setClicked(true);
+    }, []);
     return (
-        <main className="container flex items-center justify-center py-8 mx-auto">
-            {!paginatedResponse ? (
-                <div>Loading...</div>
-            ) : paginatedResponse.status ? (
-                <PageContent
-                    currOffset={pokeOffset}
-                    data={paginatedResponse.data}
-                    changeOffset={(newOffset): void => setPokeOffset(newOffset)}
-                />
+        <main className="container flex flex-col items-center justify-center w-full py-8 mx-auto">
+            <PageControls
+                currOffset={pokeOffset}
+                totalResult={
+                    paginatedResponse?.status ? paginatedResponse.data.count : 0
+                }
+                onReset={loadData}
+                onNext={
+                    paginatedResponse?.status && paginatedResponse?.data.next
+                        ? (): void => setPokeOffset((prev) => prev + 10)
+                        : undefined
+                }
+                onPrevious={
+                    paginatedResponse?.status &&
+                    paginatedResponse?.data.previous
+                        ? (): void => setPokeOffset((prev) => prev - 10)
+                        : undefined
+                }
+            />
+            <div className="h-4"></div>
+            {clicked ? (
+                !paginatedResponse ? (
+                    <div>Loading...</div>
+                ) : paginatedResponse && paginatedResponse.status ? (
+                    <PokemonsList results={paginatedResponse.data.results} />
+                ) : (
+                    paginatedResponse.reason
+                )
             ) : (
-                paginatedResponse.reason
+                <></>
             )}
         </main>
     );
