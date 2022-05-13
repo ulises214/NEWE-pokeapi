@@ -2,9 +2,11 @@ import { PokemonRepository } from '../../application/pokemon/PokemonRepository';
 import { PaginatedPokemonsResponse } from '../../application/pokemon/PokemonResponses';
 import { RepositoryResponse } from '../../application/RepositoryResponse';
 import { Pokemon } from '../../domain/Pokemon/Pokemon';
+import { MemoryPokemonRepository } from './MemoryPokemonRepository';
 
 export class ApiPokemonRepository extends PokemonRepository {
     readonly #baseUrl = 'https://pokeapi.co/api/v2/';
+    readonly #cache = new MemoryPokemonRepository();
     async getPaginated(
         offset: number,
     ): RepositoryResponse<PaginatedPokemonsResponse> {
@@ -25,11 +27,16 @@ export class ApiPokemonRepository extends PokemonRepository {
         }
     }
     async getPokemonDetail(url: string): RepositoryResponse<Pokemon> {
+        const cache = await this.#cache.getPokemonDetail(url);
+        if (cache.status) return cache;
         try {
             const response = await fetch(url);
+
+            const data = (await response.json()) as Pokemon;
+            this.#cache.setPokemon(url, data);
             return {
                 status: true,
-                data: await response.json(),
+                data,
             };
         } catch (error) {
             return {
