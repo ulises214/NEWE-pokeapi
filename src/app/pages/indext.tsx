@@ -27,7 +27,7 @@ export const IndexPage: FC = () => {
         setClicked(true);
     }, []);
     return (
-        <main className="container flex flex-col items-center justify-center w-full py-8 mx-auto">
+        <main className="container flex flex-col items-center justify-center w-full px-4 py-8 mx-auto">
             <PageControls
                 currOffset={pokeOffset}
                 totalResult={
