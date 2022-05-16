@@ -3,7 +3,8 @@ import { PaginatedPokemonsResponse } from '../../context/application/pokemon/Pok
 import { OptionalRepositoryResult } from '../../context/application/RepositoryResponse';
 import { PageControls } from '../pokemons/components/organisms/PageControls';
 import { PokemonsList } from '../pokemons/components/organisms/PokemonsList';
-import { PokemonRepositoryContext } from '../providers/PokemonRepository';
+import { PokemonDetailsModal } from '../pokemons/components/templates/PokemonDetailsModal';
+import { PokemonRepositoryContext } from '../pokemons/providers/PokemonRepository';
 
 export const IndexPage: FC = () => {
     const pokeRepo = useContext(PokemonRepositoryContext);
@@ -28,6 +29,7 @@ export const IndexPage: FC = () => {
     }, []);
     return (
         <main className="container flex flex-col items-center justify-center w-full px-4 py-8 mx-auto">
+            <PokemonDetailsModal />
             <PageControls
                 currOffset={pokeOffset}
                 totalResult={

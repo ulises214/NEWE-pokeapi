@@ -16,7 +16,7 @@ export const PageControls: FC<PokemonListItemProps> = ({
     onPrevious,
 }) => {
     return (
-        <div className="bg-[#0197F6] w-full rounded-md p-4 flex justify-between">
+        <div className="flex justify-between w-full p-4 rounded-md bg-mainBlue-300">
             <Button type="button" onClick={onReset}>
                 Get Pokemons
             </Button>

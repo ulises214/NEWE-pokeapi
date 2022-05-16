@@ -1,17 +1,13 @@
-import { IndexPage } from './app/pages/indext';
-import {
-    PokemonRepositoryContext,
-    POKEMON_REPOSITORY_INIT_VALUE,
-} from './app/providers/PokemonRepository';
+import { FC } from 'react';
+import { IndexPage } from './app/pages';
+import { PokemonProvidersInjection } from './app/pokemons/providers/PokemonProvidersInjection';
 
-function App(): JSX.Element {
+const App: FC = () => {
     return (
-        <PokemonRepositoryContext.Provider
-            value={POKEMON_REPOSITORY_INIT_VALUE}
-        >
+        <PokemonProvidersInjection>
             <IndexPage />
-        </PokemonRepositoryContext.Provider>
+        </PokemonProvidersInjection>
     );
-}
+};
 
 export default App;

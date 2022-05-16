@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Pokemon } from '../../../../context/domain/Pokemon/Pokemon';
 import { Divider } from '../../../components/atoms/divider';
+import { PokemonImage } from './PokemonImage';
 import { PokemonItemMovements } from './PokemonItemMovements';
 import { PokemonItemTitle } from './PokemonItemTitle';
 
@@ -13,15 +14,7 @@ export const PokemonListItemContent: FC<{ pokemon: Pokemon }> = ({
                 name={pokemon.name}
                 xp={pokemon.base_experience}
             />
-            <img
-                className="object-contain w-full aspect-square"
-                alt={pokemon.name}
-                src={
-                    pokemon.sprites.front_default ??
-                    pokemon.sprites.back_default ??
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Pok%C3%A9_Ball_icon.svg/640px-Pok%C3%A9_Ball_icon.svg.png'
-                }
-            />
+            <PokemonImage pokemon={pokemon} />
             <div className="flex-grow">
                 <Divider />
                 <PokemonItemMovements abilities={pokemon.abilities} />

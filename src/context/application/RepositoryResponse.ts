@@ -1,4 +1,4 @@
-import { Optional } from '../../app/providers/Optional';
+import { Optional } from '../domain/Optional';
 
 export type OptionalRepositoryResult<T> = Optional<RepositoryResult<T>>;
 export type RepositoryResult<T> =
