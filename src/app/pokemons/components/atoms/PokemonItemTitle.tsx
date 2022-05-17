@@ -10,7 +10,7 @@ export const PokemonItemTitle: FC<{ name: string; xp: number }> = ({
             <span className="text-2xl font-medium">
                 {capitalizeFirstLetter(name)}
             </span>
-            <span className="font-bold">{xp} xp</span>
+            <span className="font-bold">{xp} exp</span>
         </div>
     );
 };

@@ -8,7 +8,7 @@ export interface Pokemon {
     id: number;
     is_default: boolean;
     location_area_encounters: string;
-    moves: Move[];
+    moves: PokemonMove[];
     name: string;
     order: number;
     past_types: PastType[];
@@ -45,7 +45,7 @@ export interface VersionDetail {
     version: Species;
 }
 
-export interface Move {
+export interface PokemonMove {
     move: Species;
     version_group_details: VersionGroupDetail[];
 }

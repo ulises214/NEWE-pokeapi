@@ -17,7 +17,7 @@ export const PokemonListItemContent: FC<{ pokemon: Pokemon }> = ({
             <PokemonImage pokemon={pokemon} />
             <div className="flex-grow">
                 <Divider />
-                <PokemonItemMovements abilities={pokemon.abilities} />
+                <PokemonItemMovements moves={pokemon.moves} />
             </div>
         </div>
     );
